@@ -1,11 +1,11 @@
 const INDENT_SIZE = 1;
-const INDENT_STYLE = '';
+const INDENT_TYPE = ' ';
 
 const formatDiffElement = (element) => {
   const mark = element[0];
   const [key, val] = Object.entries(element[1])[0];
 
-  return `${INDENT_STYLE.repeat(INDENT_SIZE)} ${mark} ${key}: ${val}`;
+  return `${INDENT_TYPE.repeat(INDENT_SIZE)} ${mark} ${key}: ${val}`;
 };
 
 export default function stringify(rawDiff) {
