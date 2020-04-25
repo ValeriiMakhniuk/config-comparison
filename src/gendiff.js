@@ -1,5 +1,5 @@
 import createDiff from './createDiff';
-import stringify from './stringify';
+import formatDiff from './formatDiff';
 import getParser from './parsers';
 
 const fs = require('fs');
@@ -15,5 +15,5 @@ export default function genDiff(pathToFile1, pathToFile2) {
   const File1ParsedData = getParser(extNameFile1)(File1Data);
   const File2ParsedData = getParser(extNameFile2)(File2Data);
   const rawDiff = createDiff(File1ParsedData, File2ParsedData);
-  return stringify(rawDiff);
+  return formatDiff(rawDiff);
 }
