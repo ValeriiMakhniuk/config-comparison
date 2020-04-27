@@ -1,61 +1,37 @@
-import createDiff from '../src/createDiff';
+import { join } from 'path';
+import { readFileSync } from 'fs';
 
-test('should return empty array if both objects empty', () => {
-  const before = {};
-  const after = {};
-  expect(createDiff(before, after)).toEqual([]);
+import genDiff from '../src/gendiff';
+
+const getFixturePath = (filename) => join(__dirname, '/fixtures', filename);
+
+const formats = ['yml', 'json', 'ini'];
+
+const testCases = formats.map((format) => {
+  const pathBefore = getFixturePath(`before.${format}`);
+  const pathAfter = getFixturePath(`after.${format}`);
+
+  return [pathBefore, pathAfter];
 });
 
-test('should return old and new field if the field value is changed', () => {
-  const before = {
-    key1: 1,
-  };
-  const after = {
-    key1: 2,
-  };
-  const expected = [
-    ['+', { key1: 2 }],
-    ['-', { key1: 1 }],
-  ];
-  expect(createDiff(before, after)).toEqual(expected);
-});
+describe('Gendiff tests', () => {
+  const expectedJSON = readFileSync(getFixturePath('diff.json'), 'utf-8');
+  const expectedPlain = readFileSync(getFixturePath('diff.plain'), 'utf-8');
+  const expectedBase = readFileSync(getFixturePath('diff.base'), 'utf-8');
 
-test('should return old field with REMOVED mark if the field is removed', () => {
-  const before = {
-    key1: 1,
-  };
-  const after = {};
-  const expected = [
-    ['-', { key1: 1 }],
-  ];
-  expect(createDiff(before, after)).toEqual(expected);
-});
+  test.each(testCases)('%p without format param', (beforePath, afterPath) => {
+    expect(genDiff(beforePath, afterPath)).toEqual(expectedBase);
+  });
 
-test('should return field with UNCHANGED mark if the field is not changed', () => {
-  const before = {
-    key1: 1,
-  };
-  const after = {
-    key1: 1,
-  };
-  const expected = [
-    [' ', { key1: 1 }],
-  ];
-  expect(createDiff(before, after)).toEqual(expected);
-});
+  test.each(testCases)('%p base format', (beforePath, afterPath) => {
+    expect(genDiff(beforePath, afterPath, 'base')).toEqual(expectedBase);
+  });
 
-test('basic functionality', () => {
-  const before = {
-    key1: 1,
-  };
-  const after = {
-    key2: 1,
-    key3: 1,
-  };
-  const expected = [
-    ['-', { key1: 1 }],
-    ['+', { key2: 1 }],
-    ['+', { key3: 1 }],
-  ];
-  expect(createDiff(before, after)).toEqual(expected);
+  test.each(testCases)('%p plain format', (beforePath, afterPath) => {
+    expect(genDiff(beforePath, afterPath, 'plain')).toEqual(expectedPlain);
+  });
+
+  test.each(testCases)('%p JSON format', (beforePath, afterPath) => {
+    expect(genDiff(beforePath, afterPath, 'json')).toEqual(expectedJSON);
+  });
 });
