@@ -3,11 +3,11 @@ import ini from 'ini';
 
 const getParser = (extName) => {
   switch (extName) {
-    case '.yml':
+    case 'yml':
       return yaml.safeLoad;
-    case '.json':
+    case 'json':
       return JSON.parse;
-    case '.ini':
+    case 'ini':
       return ini.parse;
     default:
       throw new Error('bad extension name');
