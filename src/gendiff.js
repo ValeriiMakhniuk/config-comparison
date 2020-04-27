@@ -1,8 +1,9 @@
+import { resolve, extname } from 'path';
+import { readFileSync } from 'fs';
+
 import createDiffTree from './createDiffTree';
 import getParser from './parsers';
 import getFormat from './formatters';
-import { resolve, extname } from 'path';
-import { readFileSync } from 'fs';
 
 
 const START_DEPTH_LEVEL = 0;
