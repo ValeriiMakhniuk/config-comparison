@@ -1,13 +1,13 @@
 import createDiff from './createDiff';
-import formatDiff from './formatDiff';
 import getParser from './parsers';
+import getFormat from './formatters';
 
 const fs = require('fs');
 const path = require('path');
 
 const START_DEPTH_LEVEL = 0;
 
-export default function genDiff(pathToFile1, pathToFile2) {
+export default function genDiff(pathToFile1, pathToFile2, format) {
   const fullPathToFile1 = path.resolve(process.cwd(), pathToFile1);
   const fullPathToFile2 = path.resolve(process.cwd(), pathToFile2);
   const extNameFile1 = path.extname(fullPathToFile1);
@@ -17,5 +17,5 @@ export default function genDiff(pathToFile1, pathToFile2) {
   const File1ParsedData = getParser(extNameFile1)(File1Data);
   const File2ParsedData = getParser(extNameFile2)(File2Data);
   const rawDiff = createDiff(File1ParsedData, File2ParsedData, START_DEPTH_LEVEL);
-  return formatDiff(rawDiff);
+  return getFormat(format)(rawDiff);
 }
