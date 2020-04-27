@@ -2,7 +2,7 @@ import hasIn from 'lodash/hasIn';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
 
-const createDiff = (before, after) => {
+const createDiff = (before, after, level) => {
   const uniqKeys = union([...Object.keys(before), ...Object.keys(after)]);
   return uniqKeys.reduce((acc, key) => {
     if (!hasIn(before, key)) {
@@ -10,6 +10,7 @@ const createDiff = (before, after) => {
         key,
         state: 'added',
         value: after[key],
+        level,
       };
 
       return [...acc, diffNode];
@@ -19,6 +20,7 @@ const createDiff = (before, after) => {
         key,
         state: 'removed',
         value: before[key],
+        level,
       };
 
       return [...acc, diffNode];
@@ -27,23 +29,19 @@ const createDiff = (before, after) => {
       const diffNode = {
         key,
         state: 'nested',
-        value: null,
-        children: createDiff(before[key], after[key]),
+        value: createDiff(before[key], after[key], level + 1),
+        level,
       };
 
       return [...acc, diffNode];
     }
     if (Array.isArray(before[key]) && Array.isArray(after[key])) {
       const isChanged = JSON.stringify(before[key]) !== JSON.stringify(after[key]);
-      const diffNode = isChanged ? {
+      const diffNode = {
         key,
-        state: 'changed',
-        before: before[key],
-        after: after[key],
-      } : {
-        key,
-        state: 'unchanged',
-        value: before[key],
+        state: isChanged ? 'changed' : 'unchanged',
+        value: isChanged ? [before[key], after[key]] : before[key],
+        level,
       };
 
       return [...acc, diffNode];
@@ -52,8 +50,8 @@ const createDiff = (before, after) => {
       const diffNode = {
         key,
         state: 'changed',
-        before: before[key],
-        after: after[key],
+        value: [before[key], after[key]],
+        level,
       };
 
       return [...acc, diffNode];
@@ -63,6 +61,7 @@ const createDiff = (before, after) => {
       key,
       state: 'unchanged',
       value: before[key],
+      level,
     };
 
     return [...acc, diffNode];

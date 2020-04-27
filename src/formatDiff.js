@@ -1,8 +1,9 @@
 import isPlainObject from 'lodash/isPlainObject';
 import chalk from 'chalk';
 
-const INDENT_SIZE = 1;
-const INDENT_TYPE = '  ';
+const INDENT_TYPE = ' ';
+const INDENT_SIZE = 4;
+const BASIC_INDENT_SIZE = 2;
 const marks = {
   added: '+',
   removed: '-',
@@ -14,41 +15,46 @@ const stringify = (value, depth) => {
     return Array.isArray(value) ? `[${value}]` : value;
   }
 
+  const currentIndent = INDENT_TYPE.repeat(depth * INDENT_SIZE + BASIC_INDENT_SIZE);
+  const closeBracketIndent = INDENT_TYPE.repeat(depth * INDENT_SIZE);
+
   return Object
     .keys(value)
     .map((key) => (
       '{\n'
-      + `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${marks.unchanged} ${key}: ${stringify(value[key], depth + 2)}`
+      + `${currentIndent}${INDENT_TYPE} ${key}: ${stringify(value[key], depth + 1)}`
       + '\n'
-      + `${INDENT_TYPE.repeat(INDENT_SIZE * depth - 2)}${marks.unchanged} }`
+      + `${closeBracketIndent}}`
     ))
     .join('\n');
 };
 
-const formatNode = (node, depth) => {
+const formatNode = (node) => {
   const {
-    key, value, before = '', after = '',
+    key, value, state, level,
   } = node;
 
-  switch (node.state) {
+  const currentIndent = INDENT_TYPE.repeat(level * INDENT_SIZE + BASIC_INDENT_SIZE);
+
+  switch (state) {
     case 'added':
-      return `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${chalk.green(`${marks.added} ${key}: ${stringify(value, depth + 2)}`)}`;
+      return `${currentIndent}${marks.added} ${key}: ${stringify(value, level + 1)}`;
     case 'removed':
-      return `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${chalk.red(`${marks.removed} ${key}: ${stringify(value, depth + 2)}`)}`;
+      return `${currentIndent}${marks.removed} ${key}: ${stringify(value, level + 1)}`;
     case 'changed':
       return (
-        `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${chalk.redBright(`${marks.removed} ${key}: ${stringify(before, depth + 2)}`)}\n`
-        + `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${chalk.greenBright(`${marks.added} ${key}: ${stringify(after, depth + 2)}`)}`
+        `${currentIndent}${marks.removed} ${key}: ${stringify(value[0], level + 1)}\n`
+        + `${currentIndent}${marks.added} ${key}: ${stringify(value[1], level + 1)}`
       );
     case 'nested':
       return (
-        `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${marks.unchanged} ${key}: {\n`
-        + `${node.children.map((childNode) => formatNode(childNode, depth + 2)).join('\n')}`
+        `${currentIndent}${INDENT_TYPE} ${key}: {\n`
+        + `${node.value.map((childNode) => formatNode(childNode)).join('\n')}`
         + '\n'
-        + `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${marks.unchanged} }`
+        + `${currentIndent} ${INDENT_TYPE}}`
       );
     case 'unchanged':
-      return `${INDENT_TYPE.repeat(INDENT_SIZE * depth)}${marks.unchanged} ${key}: ${stringify(value, depth + 2)}`;
+      return `${currentIndent}${marks.unchanged} ${key}: ${stringify(value, level + 1)}`;
     default:
       return '';
   }
@@ -56,7 +62,7 @@ const formatNode = (node, depth) => {
 
 const formatDiff = (rawDiff) => {
   let result = '{\n';
-  result += rawDiff.map((node) => formatNode(node, 1)).join('\n');
+  result += rawDiff.map((node) => formatNode(node)).join('\n');
   result += '\n}';
 
   return result;
