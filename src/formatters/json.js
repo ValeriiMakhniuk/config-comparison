@@ -1,5 +1,3 @@
-const formatDiff = (rawDiff) => {
-  return JSON.stringify(rawDiff, null, ' ');
-};
+const formatDiff = (rawDiff) => JSON.stringify(rawDiff, null, ' ');
 
 export default formatDiff;
