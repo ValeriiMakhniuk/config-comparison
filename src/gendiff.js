@@ -1,4 +1,4 @@
-import createDiff from './createDiff';
+import createDiffTree from './createDiffTree';
 import getParser from './parsers';
 import getFormat from './formatters';
 
@@ -16,6 +16,6 @@ export default function genDiff(pathToFile1, pathToFile2, format) {
   const File2Data = fs.readFileSync(fullPathToFile2, 'utf-8');
   const File1ParsedData = getParser(extNameFile1)(File1Data);
   const File2ParsedData = getParser(extNameFile2)(File2Data);
-  const rawDiff = createDiff(File1ParsedData, File2ParsedData, START_DEPTH_LEVEL);
-  return getFormat(format)(rawDiff);
+  const diffTree = createDiffTree(File1ParsedData, File2ParsedData, START_DEPTH_LEVEL);
+  return getFormat(format)(diffTree);
 }

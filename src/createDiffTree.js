@@ -2,7 +2,7 @@ import hasIn from 'lodash/hasIn';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
 
-const createDiff = (before, after, level) => {
+const createDiffTree = (before, after, level) => {
   const uniqKeys = union([...Object.keys(before), ...Object.keys(after)]);
   return uniqKeys.reduce((acc, key) => {
     if (!hasIn(before, key)) {
@@ -29,7 +29,7 @@ const createDiff = (before, after, level) => {
       const diffNode = {
         key,
         state: 'nested',
-        value: createDiff(before[key], after[key], level + 1),
+        value: createDiffTree(before[key], after[key], level + 1),
         level,
       };
 
@@ -68,4 +68,4 @@ const createDiff = (before, after, level) => {
   }, []);
 };
 
-export default createDiff;
+export default createDiffTree;
