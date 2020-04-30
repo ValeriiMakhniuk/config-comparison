@@ -10,7 +10,7 @@ const getParser = (extName) => {
     case 'ini':
       return ini.parse;
     default:
-      throw new Error('bad extension name');
+      throw new Error(`extension name ${extName} does not support yet`);
   }
 };
 
