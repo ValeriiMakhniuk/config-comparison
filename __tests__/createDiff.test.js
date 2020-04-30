@@ -1,7 +1,7 @@
 import { join } from 'path';
 import { readFileSync } from 'fs';
 
-import genDiff from '../src/gendiff';
+import genDiff from '../src';
 
 const getFixturePath = (filename) => join(__dirname, '/fixtures', filename);
 
