@@ -1,4 +1,4 @@
-import base from './base';
+import pretty from './pretty';
 import plain from './plain';
 import json from './json';
 
@@ -8,9 +8,9 @@ const getFormat = (format) => {
       return plain;
     case 'json':
       return json;
-    case 'base':
+    case 'pretty':
     default:
-      return base;
+      return pretty;
   }
 };
 
