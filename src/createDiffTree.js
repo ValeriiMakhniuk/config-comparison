@@ -1,6 +1,7 @@
 import hasIn from 'lodash/hasIn';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
+import isEqual from 'lodash/isEqual';
 
 const createDiffTree = (before, after) => {
   const uniqKeys = union(Object.keys(before), Object.keys(after));
@@ -32,17 +33,7 @@ const createDiffTree = (before, after) => {
 
       return diffNode;
     }
-    if (Array.isArray(before[key]) && Array.isArray(after[key])) {
-      const isChanged = JSON.stringify(before[key]) !== JSON.stringify(after[key]);
-      const diffNode = {
-        key,
-        state: isChanged ? 'changed' : 'unchanged',
-        value: isChanged ? [before[key], after[key]] : before[key],
-      };
-
-      return diffNode;
-    }
-    if (before[key] !== after[key]) {
+    if (!isEqual(before[key], after[key])) {
       const diffNode = {
         key,
         state: 'changed',

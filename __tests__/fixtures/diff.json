@@ -6,14 +6,12 @@
    {
     "key": "setting1",
     "state": "unchanged",
-    "value": "Value 1",
-    "level": 1
+    "value": "Value 1"
    },
    {
     "key": "setting2",
     "state": "removed",
-    "value": 200,
-    "level": 1
+    "value": 200
    },
    {
     "key": "setting3",
@@ -23,8 +21,7 @@
      {
       "key": "value"
      }
-    ],
-    "level": 1
+    ]
    },
    {
     "key": "setting6",
@@ -33,40 +30,33 @@
      {
       "key": "key",
       "state": "unchanged",
-      "value": "value",
-      "level": 2
+      "value": "value"
      },
      {
       "key": "ops",
       "state": "added",
-      "value": "vops",
-      "level": 2
+      "value": "vops"
      }
-    ],
-    "level": 1
+    ]
    },
    {
     "key": "follow",
     "state": "added",
-    "value": false,
-    "level": 1
+    "value": false
    },
    {
     "key": "setting4",
     "state": "added",
-    "value": "blah blah",
-    "level": 1
+    "value": "blah blah"
    },
    {
     "key": "setting5",
     "state": "added",
     "value": {
      "key5": "value5"
-    },
-    "level": 1
+    }
    }
-  ],
-  "level": 0
+  ]
  },
  {
   "key": "group1",
@@ -78,14 +68,12 @@
     "value": [
      "bas",
      "bars"
-    ],
-    "level": 1
+    ]
    },
    {
     "key": "foo",
     "state": "unchanged",
-    "value": "bar",
-    "level": 1
+    "value": "bar"
    },
    {
     "key": "nest",
@@ -95,26 +83,22 @@
       "key": "value"
      },
      "str"
-    ],
-    "level": 1
+    ]
    }
-  ],
-  "level": 0
+  ]
  },
  {
   "key": "group2",
   "state": "removed",
   "value": {
    "abc": 12345
-  },
-  "level": 0
+  }
  },
  {
   "key": "group3",
   "state": "added",
   "value": {
    "fee": 100500
-  },
-  "level": 0
+  }
  }
 ]
