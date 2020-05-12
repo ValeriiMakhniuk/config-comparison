@@ -2,7 +2,7 @@
  {
   "key": "common",
   "state": "nested",
-  "value": [
+  "children": [
    {
     "key": "setting1",
     "state": "unchanged",
@@ -16,17 +16,17 @@
    {
     "key": "setting3",
     "state": "changed",
-    "value": [
-     true,
-     {
+    "value": {
+     "before": true,
+     "after": {
       "key": "value"
      }
-    ]
+    }
    },
    {
     "key": "setting6",
     "state": "nested",
-    "value": [
+    "children": [
      {
       "key": "key",
       "state": "unchanged",
@@ -61,14 +61,14 @@
  {
   "key": "group1",
   "state": "nested",
-  "value": [
+  "children": [
    {
     "key": "baz",
     "state": "changed",
-    "value": [
-     "bas",
-     "bars"
-    ]
+    "value": {
+     "before": "bas",
+     "after": "bars"
+    }
    },
    {
     "key": "foo",
@@ -78,12 +78,12 @@
    {
     "key": "nest",
     "state": "changed",
-    "value": [
-     {
+    "value": {
+     "before": {
       "key": "value"
      },
-     "str"
-    ]
+     "after": "str"
+    }
    }
   ]
  },
