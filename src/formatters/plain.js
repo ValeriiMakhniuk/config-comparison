@@ -22,9 +22,9 @@ const formatNode = (node, path) => {
     case 'removed':
       return `Property '${currentPath}' was deleted`;
     case 'changed':
-      return `Property '${currentPath}' was changed from ${stringify(value[0])} to ${stringify(value[1])}`;
+      return `Property '${currentPath}' was changed from ${stringify(value.before)} to ${stringify(value.after)}`;
     case 'nested':
-      return value.map((childNode) => formatNode(childNode, key));
+      return node.children.map((childNode) => formatNode(childNode, key));
     case 'unchanged':
     default:
       return '';

@@ -1,4 +1,4 @@
-import hasIn from 'lodash/hasIn';
+import has from 'lodash/has';
 import isPlainObject from 'lodash/isPlainObject';
 import union from 'lodash/union';
 import isEqual from 'lodash/isEqual';
@@ -6,50 +6,43 @@ import isEqual from 'lodash/isEqual';
 const createDiffTree = (before, after) => {
   const uniqKeys = union(Object.keys(before), Object.keys(after));
   return uniqKeys.map((key) => {
-    if (!hasIn(before, key)) {
-      const diffNode = {
+    if (!has(before, key)) {
+      return {
         key,
         state: 'added',
         value: after[key],
       };
-
-      return diffNode;
     }
-    if (!hasIn(after, key)) {
-      const diffNode = {
+    if (!has(after, key)) {
+      return {
         key,
         state: 'removed',
         value: before[key],
       };
-
-      return diffNode;
     }
     if (isPlainObject(before[key]) && isPlainObject(after[key])) {
-      const diffNode = {
+      return {
         key,
         state: 'nested',
-        value: createDiffTree(before[key], after[key]),
+        children: createDiffTree(before[key], after[key]),
       };
-
-      return diffNode;
     }
     if (!isEqual(before[key], after[key])) {
-      const diffNode = {
+      return {
         key,
         state: 'changed',
-        value: [before[key], after[key]],
+        value: {
+          before: before[key],
+          after: after[key],
+        },
       };
-
-      return diffNode;
     }
 
-    const diffNode = {
+    return {
       key,
       state: 'unchanged',
       value: before[key],
     };
-
-    return diffNode;
   });
 };
 
