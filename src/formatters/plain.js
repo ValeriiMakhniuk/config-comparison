@@ -1,6 +1,7 @@
 import isPlainObject from 'lodash/isPlainObject';
 import isString from 'lodash/isString';
 import flattenDeep from 'lodash/flattenDeep';
+import compact from 'lodash/compact';
 
 const stringify = (value) => {
   if (Array.isArray(value)) return `[${value}]`;
@@ -9,33 +10,34 @@ const stringify = (value) => {
 
   return value;
 };
-const formatNode = (node, path) => {
-  const {
-    key, value, state,
-  } = node;
 
-  const currentPath = path ? `${path}.${key}` : key;
+const formatDiff = (rawDiff, path) => {
+  const formatNode = (node) => {
+    const { key, value, state } = node;
 
-  switch (state) {
-    case 'added':
-      return `Property '${currentPath}' was added with value: ${stringify(value)}`;
-    case 'removed':
-      return `Property '${currentPath}' was deleted`;
-    case 'changed':
-      return `Property '${currentPath}' was changed from ${stringify(value.before)} to ${stringify(value.after)}`;
-    case 'nested':
-      return node.children.map((childNode) => formatNode(childNode, key));
-    case 'unchanged':
-    default:
-      return '';
-  }
+    const currentPath = path ? `${path}.${key}` : key;
+
+    switch (state) {
+      case 'added':
+        return `Property '${currentPath}' was added with value: ${stringify(
+          value,
+        )}`;
+      case 'removed':
+        return `Property '${currentPath}' was deleted`;
+      case 'changed':
+        return `Property '${currentPath}' was changed from ${stringify(
+          value.before,
+        )} to ${stringify(value.after)}`;
+      case 'nested':
+        return formatDiff(node.children, currentPath);
+      case 'unchanged':
+        return null;
+      default:
+        throw new Error(`Unknown state: ${state}`);
+    }
+  };
+  const result = rawDiff.map(formatNode);
+  return compact(flattenDeep(result)).join('\n');
 };
 
-const formatDiff = (rawDiff) => {
-  const result = rawDiff.map((node) => formatNode(node, ''));
-  return flattenDeep(result)
-    .filter((line) => line !== '')
-    .join('\n');
-};
-
-export default formatDiff;
+export default (rawDiff) => formatDiff(rawDiff, '');
