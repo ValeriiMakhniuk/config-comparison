@@ -17,3 +17,15 @@ make install
 For best experience, follow the instruction:
 
 [![asciicast](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m.svg)](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m)
+
+## Usage
+```
+Usage: gendiff [options] <firstConfig> <secondConfig>
+
+Compares two configuration files and shows a difference.
+
+Options:
+  -V, --version        output the version number
+  -f, --format [type]  output format
+  -h, --help           display help for command
+```
