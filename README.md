@@ -14,11 +14,8 @@ git clone git@github.com:ValeriiMakhniuk/config-comparison.git
 cd  config-comparison
 make install
 ```
-For best experience, follow the instruction:
 
-[![asciicast](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m.svg)](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m)
-
-## Usage
+### Usage
 ```
 Usage: gendiff [options] <firstConfig> <secondConfig>
 
@@ -29,3 +26,7 @@ Options:
   -f, --format [type]  output format
   -h, --help           display help for command
 ```
+
+> For best experience, follow the instruction:
+
+[![asciicast](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m.svg)](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m)
