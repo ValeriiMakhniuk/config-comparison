@@ -1,5 +1,5 @@
 {
-  "name": "frontend-project-lvl2",
+  "name": "config-comparison",
   "version": "1.0.0",
   "description": "",
   "main": "dist/gendiff.js",
@@ -19,15 +19,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ValeriiMakhniuk/frontend-project-lvl2.git"
+    "url": "git+https://github.com/ValeriiMakhniuk/config-comparison.git"
   },
   "keywords": [],
   "author": "Valerii Makhniuk <vmakhnyuk@yandex.ru>",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/ValeriiMakhniuk/frontend-project-lvl2/issues"
+    "url": "https://github.com/ValeriiMakhniuk/config-comparison/issues"
   },
-  "homepage": "https://github.com/ValeriiMakhniuk/frontend-project-lvl2#readme",
+  "homepage": "https://github.com/ValeriiMakhniuk/config-comparison#readme",
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
