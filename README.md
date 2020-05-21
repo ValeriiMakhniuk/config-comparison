@@ -16,7 +16,12 @@
 
 ## Getting Started
 
-### Installation 
+### Installation
+```
+git clone git@github.com:ValeriiMakhniuk/config-comparison.git
+cd  config-comparison
+make install
+```
 For best experience, follow the instruction:
 
 [![asciicast](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m.svg)](https://asciinema.org/a/1BGNSUCenJNRkOcqpDXeStw9m)
